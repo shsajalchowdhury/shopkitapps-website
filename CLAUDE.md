@@ -12,43 +12,65 @@ Read it before starting any work. Follow it exactly.
 1. **NO bundle product mentions anywhere.** Each app sold individually.
 2. **NO em dashes in any content.** Use parentheses, colons, or restructure.
 3. **Every page must be fully editable** via Keystatic CMS (MDX files).
-4. **Zero paid dependencies.** Next.js + Tailwind + shadcn/ui + Neon (free PG).
+4. **Zero paid dependencies.** Next.js + Ant Design + Neon (free PG).
 5. **CTAs link to Shopify App Store** (not internal signup).
 6. **Git commits:** Use `SH Sajal Chowdhury <sajal.marketer@gmail.com>`
 7. **Performance target:** 95+ Lighthouse, under 200KB per page.
+8. **App names are placeholders.** Never hardcode app names in components. All app data comes from `data/apps.json`. Components must be data-driven.
+9. **Visuals are optional.** Use `VisualSlot` component that shows placeholder with prompt text if image is missing.
 
 ## Tech Stack
 - Next.js 14 (App Router)
-- Tailwind CSS 3
-- shadcn/ui components
+- **Ant Design v5** (antd) — UI components (Card, Table, Form, Steps, Collapse, Tabs, etc.)
+- **@ant-design/icons** — Icon system
+- CSS Modules + antd ConfigProvider theme tokens
 - Keystatic (CMS for MDX content)
 - Neon PostgreSQL (free tier, Prisma ORM)
 - Framer Motion (subtle animations only)
 - Inter font (via next/font)
-- Lucide React icons
+- Fuse.js (client-side search)
+
+## Ant Design Usage
+Before writing any antd component code, use the CLI:
+```bash
+antd info [Component] --format json    # Check available props
+antd demo [Component] basic --format json  # Get working demo
+antd token [Component] --format json   # Check design tokens
+```
+
+Install CLI: `npm install -g @ant-design/cli`
+
+Theme is configured in `app/providers.tsx` via ConfigProvider with:
+- colorPrimary: #0F3460
+- colorSuccess: #00D4AA
+- colorWarning: #F59E0B
+- colorError: #E94560
+- borderRadius: 8
+- fontFamily: Inter
+
+## Dynamic App Naming
+All app data lives in `data/apps.json`. This includes:
+- name, slug, tagline, category, color, icon
+- pricing (free/pro/premium)
+- copy (heroHeadline, heroSubHeadline, painPoint, solution, cta)
+- features list
+- appStoreUrl, scopes, size
+
+To change an app name: update `data/apps.json` → site updates everywhere.
+Components NEVER hardcode app names. Always reference `app.name` or `app.copy.cta`.
+
+## Visual Elements
+Each app page has visual slots. Visuals are loaded by convention:
+`/public/images/apps/[slug]/[position].webp`
+
+If visual is missing, `VisualSlot` component shows a placeholder with the prompt text.
+Visual generation prompts are in `visual-prompts/[app-name].md`.
 
 ## Skills to Apply
-When writing copy, apply these principles:
-- **Copywriting:** Benefits over features. Specificity over vagueness. Numbers over adjectives. Short sentences (avg 12 words). Customer language, not jargon.
-- **Page CRO:** 5-second value prop clarity. Single primary CTA. Trust signals near decision points. Comparison tables. FAQ handles objections.
-- **Content Strategy:** Searchable content targeting buyer-intent keywords. Each blog post links to 1-2 relevant app pages.
-- **UI/UX:** Mobile-first. WCAG AA. Color tokens defined in plan. Inter font. 1.250 type ratio. Consistent spacing scale.
-
-## App Data Reference
-All 8 apps, their copy, pricing, and details are in the plan file (Section 6 and Section 20).
-
-## Project Structure
-Follow the file structure in Section 19 of the plan file exactly.
-
-## Development Phases
-Follow Section 18 of the plan. Start with Phase 1 (Foundation).
-
-## Content Files Location
-- App pages: `content/apps/[slug].mdx`
-- Blog posts: `content/blog/[slug].mdx`
-- Docs: `content/docs/[slug].mdx`
-- App metadata: `data/apps.json`
-- Site config: `data/site.json`
+- **Copywriting:** Benefits over features. Numbers over adjectives. Short sentences.
+- **Page CRO:** 5-second value prop. Single primary CTA. Trust signals.
+- **Content Strategy:** Searchable content targeting buyer-intent keywords.
+- **UI/UX:** Mobile-first. WCAG AA. Ant Design tokens. Inter font.
 
 ## Important
 Always read `../SHOPKITAPPS-WEBSITE-PLAN.md` fully before making changes.

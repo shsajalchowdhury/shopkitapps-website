@@ -9,7 +9,7 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ minHeight: '100vh', background: '#FFFFFF', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: '#0A0E27', display: 'flex', flexDirection: 'column' }}>
       <Header />
       <main style={{ flex: 1 }}>{children}</main>
       <Footer />
